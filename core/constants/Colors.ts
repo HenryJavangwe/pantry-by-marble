@@ -25,5 +25,7 @@ export const Colors = {
     secondary: "#352329",
     tertiary: "#FCF9F580",
     lightGreen: "#54634B80",
+    light:"#ffffff",
+    dark:"#000000",
   },
 };

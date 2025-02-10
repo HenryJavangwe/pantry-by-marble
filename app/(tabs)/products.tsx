@@ -10,9 +10,8 @@ import { Text, View } from "@/shared/components/Themed";
 import PortraitCard from "@/shared/components/product-cards/portrait-card";
 import { Colors } from "@/core/constants";
 import LandscapeCard from "@/shared/components/product-cards/landscape-card";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import BasicInput from "@/shared/components/inputs/basic-input";
-import { useFetchData } from "@/core/hooks";
+import Divider from "@/shared/components/divider/divider";
 
 export default function Products() {
   // const { data, isLoading, error, refetch } = useFetchData('/api/data');
@@ -37,6 +36,8 @@ export default function Products() {
         <Text style={styles.title}>Welcome to Pantry by Marble</Text>
         <Text style={styles.subtitle}>Product List</Text>
 
+        <Divider />
+
         <View>
           <BasicInput
             placeholder="Search for products"
@@ -45,7 +46,6 @@ export default function Products() {
               console.log("Search Value", value);
             }}
             value={"Test Search"}
-            type={"text"}
           />
         </View>
 

@@ -2,8 +2,7 @@ import { StyleSheet, Text, Pressable } from "react-native";
 import React, { Children } from "react";
 import { ButtonProps } from "@/core/models/button";
 
-const Button = ({ buttonContainer, onButtonPress, children }: ButtonProps) => {
-  // handle button press
+const Button = ({ buttonStyles, onButtonPress, children }: ButtonProps) => {
   const handleButtonPress = () => {
     if (onButtonPress) {
       onButtonPress();
@@ -13,7 +12,7 @@ const Button = ({ buttonContainer, onButtonPress, children }: ButtonProps) => {
   return (
     <Pressable
       onPress={handleButtonPress}
-      style={[styles.container, buttonContainer]}
+      style={[styles.container, buttonStyles]}
     >
       {Children.map(children, (child) => child)}
     </Pressable>

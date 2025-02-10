@@ -1,5 +1,5 @@
 export interface ButtonProps {
-  buttonContainer?: any;
+  buttonStyles?: any;
   onButtonPress?: () => any;
   color?: string;
   children: React.ReactNode;

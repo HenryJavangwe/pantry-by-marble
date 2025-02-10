@@ -5,17 +5,17 @@ import Search from "../../../assets/icons/search.svg";
 import Profile from "../../../assets/icons/profile.svg";
 import { Colors } from "../Colors";
 
-
 export const NAV_TABS: {
   name: string;
   Icon: React.FC;
   options: Record<string, any>;
 }[] = [
   {
-    name: "index",
+    name: "products",
     Icon: Shop,
     options: {
       tabBarShowLabel: false,
+      headerShown: false,
       tabBarIcon: ({ focused }: { focused: boolean }) => (
         <Shop
           fill={focused ? Colors.tab_icons.active : Colors.tab_icons.inActive}
@@ -30,6 +30,7 @@ export const NAV_TABS: {
     Icon: Fav,
     options: {
       tabBarShowLabel: false,
+      headerShown: false,
       tabBarIcon: ({ focused }: { focused: boolean }) => (
         <Fav
           fill={focused ? Colors.tab_icons.active : Colors.tab_icons.inActive}
@@ -44,6 +45,7 @@ export const NAV_TABS: {
     Icon: Cart,
     options: {
       tabBarShowLabel: false,
+      headerShown: false,
       tabBarIcon: ({ focused }: { focused: boolean }) => (
         <Cart
           fill={focused ? Colors.tab_icons.active : Colors.tab_icons.inActive}
@@ -58,6 +60,7 @@ export const NAV_TABS: {
     Icon: Search,
     options: {
       tabBarShowLabel: false,
+      headerShown: false,
       tabBarIcon: ({ focused }: { focused: boolean }) => (
         <Search
           fill={focused ? Colors.tab_icons.active : Colors.tab_icons.inActive}
@@ -72,6 +75,7 @@ export const NAV_TABS: {
     Icon: Profile,
     options: {
       tabBarShowLabel: false,
+      headerShown: false,
       tabBarIcon: ({ focused }: { focused: boolean }) => (
         <Profile
           fill={focused ? Colors.tab_icons.active : Colors.tab_icons.inActive}

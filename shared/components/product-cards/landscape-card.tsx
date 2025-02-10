@@ -50,7 +50,7 @@ const LandscapeCard: React.FC<CardProps> = ({
         <View style={styles.cardQuantityCTAContainer}>
           <Button
             onButtonPress={() => handleRemoveButtonPress()}
-            buttonContainer={styles.removeFromCartButton}
+            buttonStyles={styles.removeFromCartButton}
           >
             <Text style={styles.removeFromCartButtonText}>Remove</Text>
           </Button>
@@ -58,7 +58,7 @@ const LandscapeCard: React.FC<CardProps> = ({
           <View style={styles.incDecrementButtonContainer}>
             <Button
               onButtonPress={() => handleDecrementButtonPress()}
-              buttonContainer={styles.decrementButton}
+              buttonStyles={styles.decrementButton}
             >
               <Text style={styles.decrementButtonText}> - </Text>
             </Button>
@@ -71,7 +71,7 @@ const LandscapeCard: React.FC<CardProps> = ({
 
             <Button
               onButtonPress={() => handleIncrementButtonPress()}
-              buttonContainer={styles.incrementButton}
+              buttonStyles={styles.incrementButton}
             >
               <Text style={styles.incrementButtonText}> + </Text>
             </Button>
