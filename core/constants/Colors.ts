@@ -24,7 +24,7 @@ export const Colors = {
     primary: "#54634B",
     secondary: "#352329",
     tertiary: "#FCF9F580",
-    lightGreen: "#54634B80",
+    grey: "#d9d9d9",
     light:"#ffffff",
     dark:"#000000",
   },

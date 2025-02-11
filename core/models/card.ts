@@ -3,7 +3,9 @@ export interface CardProps {
   title?: string;
   price?: string;
   onCardPress?: () => void;
-  onButtonPress?: () => void;
+  onRemoveFromCart?: () => void;
+  onDecrementQuantity?: () => void;
+  onIncrementQuantity?: () => void;
   containerStyle?: any;
   imageStyle?: any;
   titleStyle?: any;

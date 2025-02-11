@@ -35,7 +35,7 @@ const SignUp = () => {
     }
 
     signUp(user);
-    router.navigate("/(tabs)/products");
+    router.navigate("/(tabs)/(products)/productCategories");
   };
 
   return (
@@ -102,7 +102,7 @@ const SignUp = () => {
               marginLeft: 5,
             },
           ]}
-          href={"/(tabs)/products"}
+          href={"/(tabs)/(products)/productCategories"}
         >
           Login
         </Link>

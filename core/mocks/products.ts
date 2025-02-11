@@ -1,0 +1,72 @@
+import {
+  Product,
+  ProductCategory,
+  ProductSubCategory,
+} from "../models/products";
+
+export const mock_products: Product[] = [
+  {
+    id: 1,
+    name: "Wagyu Steak",
+    price: "R 800.00",
+    image: require("../../assets/images/wagyu.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Beef,
+  },
+  {
+    id: 2,
+    name: "R ump Steak",
+    price: "R 150.00",
+    image: require("../../assets/images/rump.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Beef,
+  },
+  {
+    id: 3,
+    name: "Free Range Chicken",
+    price: "R 300.00",
+    image: require("../../assets/images/kfc.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Poutry,
+  },
+  {
+    id: 4,
+    name: "Baby Chicken",
+    price: "R 150.00",
+    image: require("../../assets/images/mcChicken.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Poutry,
+  },
+  {
+    id: 5,
+    name: "Pork Rib",
+    price: "R 280.00",
+    image: require("../../assets/images/sirloin.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Pork,
+  },
+  {
+    id: 6,
+    name: "Pork Chop",
+    price: "R 90.00",
+    image: require("../../assets/images/gammon.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Pork,
+  },
+  {
+    id: 7,
+    name: "Salmon Fish",
+    price: "R 600.00",
+    image: require("../../assets/images/burger.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Fish,
+  },
+  {
+    id: 8,
+    name: "Tuna Fish",
+    price: "R 120.00",
+    image: require("../../assets/images/sirloin.png"),
+    category: ProductCategory.Meat,
+    subCategory: ProductSubCategory.Fish,
+  },
+];

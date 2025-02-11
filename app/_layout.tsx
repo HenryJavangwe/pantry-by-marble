@@ -15,6 +15,7 @@ import { useColorScheme } from "@/shared/components/useColorScheme";
 import { SessionProvider } from "@/core/hooks/useSession";
 import { Colors } from "@/core/constants";
 import Button from "@/shared/components/button/button";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -41,6 +42,8 @@ export default function RootLayout() {
     GeomanistLight: require("../assets/fonts/Geomanist-Light.otf"),
   });
 
+  const queryClient = new QueryClient();
+
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -56,11 +59,13 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
-        <RootLayoutNav />
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+          <RootLayoutNav />
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -80,9 +85,13 @@ function RootLayoutNav() {
               headerTintColor: Colors.theme.primary,
               headerRight: () => (
                 <Button
-                  onButtonPress={() => router.navigate("/(tabs)/products")}
+                  onButtonPress={() =>
+                    router.navigate("/(tabs)/(products)/productCategories")
+                  }
                 >
-                  <Text style={{ color: Colors.theme.primary }}>Explore app</Text>
+                  <Text style={{ color: Colors.theme.primary }}>
+                    Explore app
+                  </Text>
                 </Button>
               ),
               headerShadowVisible: false,
@@ -96,6 +105,8 @@ function RootLayoutNav() {
               headerTintColor: Colors.theme.primary,
               headerBackTitle: "Back",
               headerShadowVisible: false,
+
+              headerShown: false,
             }}
           />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />

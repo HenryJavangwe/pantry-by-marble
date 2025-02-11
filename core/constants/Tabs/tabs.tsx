@@ -11,7 +11,7 @@ export const NAV_TABS: {
   options: Record<string, any>;
 }[] = [
   {
-    name: "products",
+    name: "(products)",
     Icon: Shop,
     options: {
       tabBarShowLabel: false,

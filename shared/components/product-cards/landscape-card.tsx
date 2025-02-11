@@ -11,28 +11,31 @@ const LandscapeCard: React.FC<CardProps> = ({
   title,
   price,
   onCardPress,
-  onButtonPress,
+  onRemoveFromCart,
+  onDecrementQuantity,
+  onIncrementQuantity,
   containerStyle,
   imageStyle,
   titleStyle,
   priceStyle,
   quantity,
 }) => {
-  
   const handleIncrementButtonPress = () => {
-    // handle increment button press
-    console.log("Increment Button Pressed");
+    if (onIncrementQuantity) {
+      onIncrementQuantity();
+    }
   };
 
   const handleDecrementButtonPress = () => {
-    // handle decrement button press
-
-    console.log("Decrement Button Pressed");
+    if (onDecrementQuantity) {
+      onDecrementQuantity();
+    }
   };
 
   const handleRemoveButtonPress = () => {
-    // handle remove button press
-    console.log("Remove Button Pressed");
+    if (onRemoveFromCart) {
+      onRemoveFromCart();
+    }
   };
 
   return (
