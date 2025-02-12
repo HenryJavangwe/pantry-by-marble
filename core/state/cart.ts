@@ -9,9 +9,11 @@ interface CartState {
   addToCart: (item: Product) => void;
   removeFromCart: (item: Product) => void;
   decrementQuantity: (item: Product) => void;
+  calculateTotalPrice: () => number;
+  getProcuctQuantity: (item: Product) => number;
 }
 
-export const useCartStore = create<CartState>((set) => ({
+export const useCartStore = create<CartState>((set, get) => ({
   cartItems: [],
   addToCart: (item: Product) => {
     set((state) => {
@@ -97,5 +99,20 @@ export const useCartStore = create<CartState>((set) => ({
         };
       }
     });
+  },
+  calculateTotalPrice: () => {
+    const { cartItems } = get();
+
+    return cartItems.reduce((total, cartItem) => {
+      return (total += cartItem.product.price * cartItem.quantity);
+    }, 0);
+  },
+  getProcuctQuantity: (item: Product) => {
+    const { cartItems } = get();
+
+    const cartItem = cartItems.find(
+      (cartItem) => cartItem.product.id === item.id
+    );
+    return cartItem ? cartItem.quantity : 0;
   },
 }));

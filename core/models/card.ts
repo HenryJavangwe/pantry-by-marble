@@ -1,7 +1,7 @@
+import { Product } from "./products";
+
 export interface CardProps {
-  imageSource?: string;
-  title?: string;
-  price?: string;
+  product: Product;
   onCardPress?: () => void;
   onRemoveFromCart?: () => void;
   onDecrementQuantity?: () => void;
@@ -14,3 +14,4 @@ export interface CardProps {
   iconHeight?: number;
   quantity?: number;
 }
+

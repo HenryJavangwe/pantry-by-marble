@@ -5,11 +5,9 @@ import { Image } from "expo-image";
 import { CardProps } from "@/core/models";
 import { Colors } from "@/core/constants";
 import Button from "../button/button";
+import { useCartStore } from "@/core/state";
 
 const LandscapeCard: React.FC<CardProps> = ({
-  imageSource,
-  title,
-  price,
   onCardPress,
   onRemoveFromCart,
   onDecrementQuantity,
@@ -18,8 +16,12 @@ const LandscapeCard: React.FC<CardProps> = ({
   imageStyle,
   titleStyle,
   priceStyle,
-  quantity,
+  product,
 }) => {
+  const { image: imageSource, name: title, price } = product;
+  const { getProcuctQuantity } = useCartStore.getState();
+  const quantity = getProcuctQuantity(product);
+
   const handleIncrementButtonPress = () => {
     if (onIncrementQuantity) {
       onIncrementQuantity();

@@ -14,7 +14,8 @@
       "backgroundColor": "#54634B"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.henry-javangwe.pantry-by-marble"
     },
     "android": {
       "adaptiveIcon": {

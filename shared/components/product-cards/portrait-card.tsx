@@ -5,11 +5,10 @@ import { Image } from "expo-image";
 import Cart from "../../../assets/icons/cart.svg";
 import { CardProps } from "@/core/models";
 import { Colors } from "@/core/constants";
+import { useCartStore } from "@/core/state";
+import { router } from "expo-router";
 
 const PortraitCard: React.FC<CardProps> = ({
-  imageSource,
-  title,
-  price,
   onCardPress,
   containerStyle,
   imageStyle,
@@ -17,9 +16,16 @@ const PortraitCard: React.FC<CardProps> = ({
   priceStyle,
   iconWidth,
   iconHeight,
+  product,
 }) => {
+  const { image: imageSource, name: title, price } = product;
+
+  const { cartItems, getProcuctQuantity } = useCartStore.getState();
+  const quantity = getProcuctQuantity(product);
+
   return (
     <Pressable
+      onPress={onCardPress}
       style={({ pressed }) => [
         styles.container,
         containerStyle,
@@ -35,7 +41,15 @@ const PortraitCard: React.FC<CardProps> = ({
       {price && (
         <View style={styles.cardPriceContainer}>
           <Text style={[styles.cardPrice, priceStyle]}>{price}</Text>
-          <Pressable onPress={onCardPress} style={[styles.cartIconWrapper]}>
+
+          <Text style={styles.quantity}>{quantity}</Text>
+
+          <Pressable
+            onPress={() => {
+              router.navigate("/(tabs)/cart");
+            }}
+            style={[styles.cartIconWrapper]}
+          >
             <Cart
               fill={Colors.theme.primary}
               width={iconWidth}
@@ -52,7 +66,6 @@ export default PortraitCard;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "stretch",
     justifyContent: "center",
     padding: 0,
@@ -99,5 +112,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     marginRight: 10,
+  },
+  quantity: {
+    fontSize: 10,
+    fontWeight: "bold",
+    color: Colors.theme.primary,
+    marginLeft: 5,
   },
 });

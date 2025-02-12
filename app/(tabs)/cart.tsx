@@ -5,38 +5,77 @@ import { useCartStore } from "@/core/state";
 import { Colors } from "@/core/constants";
 import Divider from "@/shared/components/divider/divider";
 import LandscapeCard from "@/shared/components/product-cards/landscape-card";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
-  const { addToCart, removeFromCart, decrementQuantity } = useCartStore();
+  const { addToCart, removeFromCart, decrementQuantity, calculateTotalPrice } =
+    useCartStore();
+
+  const [totalPrice, setTotalPrice] = useState(0);
+  // TODO: Add logic to calculate the delivery price based on the shipping address
+  const deliveryPrice = totalPrice > 0 ? totalPrice * 0.005 : 0;
+
+  useEffect(() => {
+    setTotalPrice(calculateTotalPrice()); // Properly updating state
+  }, [cartItems]);
+
   return (
     <ScrollView style={styles.container}>
-      <View style={{ height: 100 }}>
-        <View style={styles.titleTextContainer}>
-          <Text style={styles.title}>Cart</Text>
+      <View style={styles.mainCartContentContainer}>
+        <View style={{ height: 100 }}>
+          <View style={styles.titleTextContainer}>
+            <Text style={styles.title}>Cart</Text>
+          </View>
+
+          <View style={styles.dividerContainer}>
+            <Divider backgroundColor={Colors.theme.primary} />
+          </View>
         </View>
 
-        <View style={styles.dividerContainer}>
-          <Divider backgroundColor={Colors.theme.primary} />
-        </View>
-      </View>
-      <View style={styles.productsContainer}>
-        {cartItems.map((cartItem) => (
-          <LandscapeCard
-            imageSource={cartItem.product.image}
-            imageStyle={{ borderRadius: 4 }}
-            title={cartItem.product.name}
-            price={cartItem.product.price}
-            onCardPress={() => console.log("View Cart")}
-            iconWidth={10}
-            iconHeight={10}
-            key={cartItem.product.id}
-            quantity={cartItem.quantity}
-            onRemoveFromCart={() => removeFromCart(cartItem.product)}
-            onDecrementQuantity={() => decrementQuantity(cartItem.product)}
-            onIncrementQuantity={() => addToCart(cartItem.product)}
-          />
+        {/*  region Cart Items */}
+        {cartItems.map((cartItem, index) => (
+          <View
+            style={[
+              styles.productsContainer,
+              { borderBottomWidth: index === cartItems.length - 1 ? 0 : 2 },
+            ]}
+            key={index}
+          >
+            <LandscapeCard
+              imageStyle={{ borderRadius: 4 }}
+              onCardPress={() => console.log("View Cart")}
+              iconWidth={10}
+              iconHeight={10}
+              onRemoveFromCart={() => removeFromCart(cartItem.product)}
+              onDecrementQuantity={() => decrementQuantity(cartItem.product)}
+              onIncrementQuantity={() => addToCart(cartItem.product)}
+              product={cartItem.product}
+            />
+          </View>
         ))}
+        {/* endregion */}
+      </View>
+
+      {/* TODO: Add the Promotion Code TextInput  */}
+
+      <View style={styles.cartTotalContainer}>
+        <View style={styles.cartPriceRow}>
+          <Text style={styles.subtitle}>Subtotal</Text>
+          <Text style={styles.subtitle}>{totalPrice}</Text>
+        </View>
+
+        <View style={styles.cartPriceRow}>
+          <Text style={styles.subtitle}>Delivery</Text>
+          <Text style={styles.subtitle}>{deliveryPrice}</Text>
+        </View>
+
+        <View style={styles.separator}></View>
+        <View style={styles.cartPriceRow}>
+          <Text style={styles.subtitle}>Total</Text>
+          {/* Total price + delivery price */}
+          <Text style={styles.subtitle}>{totalPrice + deliveryPrice}</Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -44,8 +83,10 @@ export default function Cart() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: Colors.theme.light,
+  },
+  mainCartContentContainer: {
+    paddingHorizontal: 20,
   },
   titleTextContainer: {
     flex: 1,
@@ -65,9 +106,9 @@ const styles = StyleSheet.create({
     color: Colors.theme.primary,
   },
   separator: {
-    marginVertical: 30,
+    marginVertical: 20,
     height: 1,
-    width: "80%",
+    backgroundColor: Colors.theme.primary,
   },
   dividerContainer: {
     marginTop: 10,
@@ -80,5 +121,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
+    borderBottomColor: Colors.theme.primary,
+    borderBottomWidth: 2,
+    paddingBottom: 20,
+  },
+  cartTotalContainer: {
+    flex: 1,
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: Colors.theme.light_green,
+    paddingBottom: 20,
+  },
+  cartPriceRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 5,
+    backgroundColor: "transparent",
   },
 });

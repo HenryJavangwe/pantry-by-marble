@@ -35,7 +35,7 @@ export default function productCategories() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.titleTextContainer}>
-        <Text style={styles.title}>Product Categories</Text>
+        <Text style={styles.title}>Explore our pantry</Text>
       </View>
 
       <View style={styles.dividerContainer}>
