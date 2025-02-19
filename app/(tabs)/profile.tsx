@@ -1,23 +1,29 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { Platform, StyleSheet } from "react-native";
-
-import EditScreenInfo from "@/shared/components/EditScreenInfo";
+import { StyleSheet } from "react-native";
 import { Text, View } from "@/shared/components/Themed";
+import { Link } from "expo-router";
+import { useSession } from "@/core/hooks/useSession";
 
-export default function ModalScreen() {
+export default function Profile() {
+  const { signOut } = useSession();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
+      <Text style={styles.title}>Profile</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <EditScreenInfo path="app/modal.tsx" />
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+      <Text
+        onPress={() => {
+          signOut();
+          // router.replace("/");
+        }}
+      >
+        <Link href="/">Sign Out</Link>
+      </Text>
     </View>
   );
 }
