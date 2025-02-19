@@ -1,18 +1,14 @@
+import React from "react";
 import { StyleSheet, ScrollView, Pressable } from "react-native";
-
 import { Text, View } from "@/shared/components/Themed";
-import PortraitCard from "@/shared/components/product-cards/portrait-card";
 import { Colors } from "@/core/constants";
-import LandscapeCard from "@/shared/components/product-cards/landscape-card";
-import BasicInput from "@/shared/components/inputs/basic-input";
 import Divider from "@/shared/components/divider/divider";
 import { ProductCategory } from "@/core/models";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 
 export default function productCategories() {
   let ProductCategoryList = Object.values(ProductCategory);
   const handleNavigateToCategory = (categoryId: string) => {
-    // Navigate to the dynamic screen with the categoryId parameter
     router.push(`/(tabs)/(products)/${categoryId}`);
   };
 
@@ -43,7 +39,7 @@ export default function productCategories() {
       </View>
 
       <View style={styles.categoryBoxContainer}>
-        {ProductCategoryList.map((category) => (
+        {ProductCategoryList?.map((category) => (
           <Pressable
             onPress={() => handleNavigateToCategory(category)}
             style={styles.categoryBox}

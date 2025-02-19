@@ -1,3 +1,4 @@
+import React from "react";
 import { Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -105,7 +106,6 @@ function RootLayoutNav() {
               headerTintColor: Colors.theme.primary,
               headerBackTitle: "Back",
               headerShadowVisible: false,
-
               headerShown: false,
             }}
           />

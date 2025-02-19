@@ -16,7 +16,6 @@ export enum ProductCategory {
 }
 
 export enum ProductSubCategory {
-  
   Beef = "Beef",
   Fish = "Fish",
   Poutry = "Poutry",

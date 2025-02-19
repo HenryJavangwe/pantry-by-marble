@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import { Colors } from "@/core/constants";
 
 const Divider = ({ backgroundColor }: { backgroundColor?: string }) => {
-  return <View style={[styles.container, { backgroundColor }]} />;  
+  return <View style={[styles.container, { backgroundColor }]} />;
 };
 
-export default Divider;
+export default React.memo(Divider);
 
 const styles = StyleSheet.create({
   container: {

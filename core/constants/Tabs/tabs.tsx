@@ -1,3 +1,4 @@
+import React from "react";
 import Shop from "../../../assets/icons/shop.svg";
 import Fav from "../../../assets/icons/fav.svg";
 import Cart from "../../../assets/icons/cart.svg";
