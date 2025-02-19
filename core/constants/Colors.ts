@@ -25,8 +25,9 @@ export const Colors = {
     secondary: "#352329",
     tertiary: "#FCF9F580",
     grey: "#d9d9d9",
-    light:"#ffffff",
-    dark:"#000000",
+    light: "#ffffff",
+    dark: "#000000",
     light_green: "#EBEAE4",
+    error: "#EE4B2B",
   },
 };

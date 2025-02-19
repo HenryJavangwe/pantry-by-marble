@@ -37,7 +37,7 @@ const useFetchData = <TData = unknown>(
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(mock_products as TData);
-      }, 200); 
+      }, 200);
     });
   };
 

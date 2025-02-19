@@ -1,6 +1,7 @@
+import React from "react";
 import { StyleSheet } from "react-native";
 import { Text, View } from "@/shared/components/Themed";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import { useSession } from "@/core/hooks/useSession";
 
 export default function Profile() {

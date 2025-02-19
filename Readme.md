@@ -30,3 +30,10 @@ To get started, follow these steps:
 - React Native SVG Transformer
 - React Native Reanimated
 
+<!-- Items not implemented yet  -->
+1. Adding a coupon code to the cart
+2. Adding logic to filter products by category and subcategory on the header button
+3. Create a custom Typography component
+4. Create a custom Button component
+5. Adding animations 
+6. Minor UI/UX improvements on signup form like the +27 label on the phone number input

@@ -7,6 +7,11 @@ import { CardProps } from "@/core/models";
 import { Colors } from "@/core/constants";
 import { useCartStore } from "@/core/state";
 import { router } from "expo-router";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 const PortraitCard: React.FC<CardProps> = ({
   onCardPress,
@@ -20,49 +25,60 @@ const PortraitCard: React.FC<CardProps> = ({
 }) => {
   const { image: imageSource, name: title, price } = product;
 
-  const { cartItems, getProcuctQuantity } = useCartStore.getState();
+  const { getProcuctQuantity } = useCartStore.getState();
   const quantity = getProcuctQuantity(product);
 
+  // reg just show casing I can use animation - a small bounce effect for the final touch
+  const scale = useSharedValue(1);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+    };
+  });
+
+  const handlePress = () => {
+    scale.value = withSpring(0.9, { damping: 2, stiffness: 100 }, () => {
+      scale.value = withSpring(1, { damping: 2, stiffness: 100 });
+    });
+    onCardPress?.();
+  };
+
   return (
-    <Pressable
-      onPress={onCardPress}
-      style={({ pressed }) => [
-        styles.container,
-        containerStyle,
-        pressed && { opacity: 0.8 },
-      ]}
-    >
-      {imageSource && (
-        <Image source={imageSource} style={[styles.cardImage, imageStyle]} />
-      )}
+    <Animated.View style={[styles.container, containerStyle, animatedStyles]}>
+      <Pressable onPress={handlePress}>
+        {imageSource && (
+          <Image source={imageSource} style={[styles.cardImage, imageStyle]} />
+        )}
 
-      {title && <Text style={[styles.cardTitle, titleStyle]}>{title}</Text>}
+        {title && <Text style={[styles.cardTitle, titleStyle]}>{title}</Text>}
 
-      {price && (
-        <View style={styles.cardPriceContainer}>
-          <Text style={[styles.cardPrice, priceStyle]}>{price}</Text>
+        {price && (
+          <View style={styles.cardPriceContainer}>
+            <Text style={[styles.cardPrice, priceStyle]}>{price}</Text>
 
-          <Text style={styles.quantity}>{quantity}</Text>
+            <Text style={styles.quantity}>{quantity}</Text>
 
-          <Pressable
-            onPress={() => {
-              router.navigate("/(tabs)/cart");
-            }}
-            style={[styles.cartIconWrapper]}
-          >
-            <Cart
-              fill={Colors.theme.primary}
-              width={iconWidth}
-              height={iconHeight}
-            />
-          </Pressable>
-        </View>
-      )}
-    </Pressable>
+            <Pressable
+              onPress={() => {
+                router.navigate("/(tabs)/cart");
+              }}
+              style={[styles.cartIconWrapper]}
+            >
+              <Cart
+                fill={Colors.theme.primary}
+                width={iconWidth}
+                height={iconHeight}
+              />
+            </Pressable>
+          </View>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 };
 
-export default PortraitCard;
+export default React.memo(PortraitCard);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Redirect, Tabs } from "expo-router";
+import React from "react";
+import { Tabs } from "expo-router";
 
 import { useColorScheme } from "@/shared/components/useColorScheme";
 import { useClientOnlyValue } from "@/shared/components/useClientOnlyValue";
@@ -8,7 +8,6 @@ import { Colors } from "@/core/constants";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  
 
   return (
     <Tabs

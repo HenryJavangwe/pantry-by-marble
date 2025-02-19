@@ -1,29 +1,37 @@
-import { ScrollView, StyleSheet } from "react-native";
-
+import { FlatList, StyleSheet } from "react-native";
+import React, { useMemo } from "react";
 import { Text, View } from "@/shared/components/Themed";
 import { useCartStore } from "@/core/state";
 import { Colors } from "@/core/constants";
 import Divider from "@/shared/components/divider/divider";
 import LandscapeCard from "@/shared/components/product-cards/landscape-card";
-import { useEffect, useState } from "react";
+import NoProductsInCart from "@/shared/components/empty-state/no-products";
+import Button from "@/shared/components/button/button";
 
 export default function Cart() {
   const cartItems = useCartStore((state) => state.cartItems);
   const { addToCart, removeFromCart, decrementQuantity, calculateTotalPrice } =
     useCartStore();
 
-  const [totalPrice, setTotalPrice] = useState(0);
+  const totalPrice = calculateTotalPrice();
   // TODO: Add logic to calculate the delivery price based on the shipping address
-  const deliveryPrice = totalPrice > 0 ? totalPrice * 0.005 : 0;
+  const deliveryPrice = useMemo(() => {
+    return totalPrice > 0 ? totalPrice * 0.005 : 0;
+  }, [totalPrice]);
 
-  useEffect(() => {
-    setTotalPrice(calculateTotalPrice()); // Properly updating state
-  }, [cartItems]);
+  if (!cartItems.length) {
+    return <NoProductsInCart />;
+  }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.mainCartContentContainer}>
-        <View style={{ height: 100 }}>
+        <View
+          style={[
+            styles.containerHorizontalPadding,
+            { height: 100, marginBottom: 20 },
+          ]}
+        >
           <View style={styles.titleTextContainer}>
             <Text style={styles.title}>Cart</Text>
           </View>
@@ -33,51 +41,72 @@ export default function Cart() {
           </View>
         </View>
 
-        {/*  region Cart Items */}
-        {cartItems.map((cartItem, index) => (
-          <View
-            style={[
-              styles.productsContainer,
-              { borderBottomWidth: index === cartItems.length - 1 ? 0 : 2 },
-            ]}
-            key={index}
-          >
-            <LandscapeCard
-              imageStyle={{ borderRadius: 4 }}
-              onCardPress={() => console.log("View Cart")}
-              iconWidth={10}
-              iconHeight={10}
-              onRemoveFromCart={() => removeFromCart(cartItem.product)}
-              onDecrementQuantity={() => decrementQuantity(cartItem.product)}
-              onIncrementQuantity={() => addToCart(cartItem.product)}
-              product={cartItem.product}
-            />
+        {/* region Cart Items */}
+        <View
+          style={[styles.cartItemsContainer, styles.containerHorizontalPadding]}
+        >
+          <FlatList
+            data={cartItems}
+            keyExtractor={(item) => item.product.id.toString()}
+            renderItem={({ item, index }) => (
+              <View
+                style={[
+                  styles.cartItemsInnerContainer,
+                  {
+                    borderBottomWidth: index === cartItems.length - 1 ? 0 : 2,
+                  },
+                ]}
+              >
+                <LandscapeCard
+                  imageStyle={{ borderRadius: 4 }}
+                  onCardPress={() => console.log("View Cart")}
+                  iconWidth={10}
+                  iconHeight={10}
+                  onRemoveFromCart={() => removeFromCart(item.product)}
+                  onDecrementQuantity={() => decrementQuantity(item.product)}
+                  onIncrementQuantity={() => addToCart(item.product)}
+                  product={item.product}
+                />
+              </View>
+            )}
+          />
+        </View>
+        {/* endregion */}
+
+        {/* TODO: Add the Promotion Code TextInput  */}
+
+        {/* Region Cart Price */}
+        <View
+          style={[styles.cartTotalContainer, styles.containerHorizontalPadding]}
+        >
+          <View style={styles.cartPriceRow}>
+            <Text style={styles.subtitle}>Subtotal</Text>
+            <Text style={styles.subtitle}>{totalPrice}</Text>
           </View>
-        ))}
+
+          <View style={styles.cartPriceRow}>
+            <Text style={styles.subtitle}>Delivery</Text>
+            <Text style={styles.subtitle}>{deliveryPrice}</Text>
+          </View>
+
+          <View style={styles.separator}></View>
+          <View style={styles.cartPriceRow}>
+            <Text style={styles.totalPriceBoldText}>Total</Text>
+            {/* Total price + delivery price */}
+            <Text style={styles.totalPriceBoldText}>
+              R {totalPrice + deliveryPrice}
+            </Text>
+          </View>
+
+          <View style={styles.checkoutButtonContainer}>
+            <Button buttonStyles={styles.checkoutButton}>
+              <Text style={styles.buttonText}>Checkout</Text>
+            </Button>
+          </View>
+        </View>
         {/* endregion */}
       </View>
-
-      {/* TODO: Add the Promotion Code TextInput  */}
-
-      <View style={styles.cartTotalContainer}>
-        <View style={styles.cartPriceRow}>
-          <Text style={styles.subtitle}>Subtotal</Text>
-          <Text style={styles.subtitle}>{totalPrice}</Text>
-        </View>
-
-        <View style={styles.cartPriceRow}>
-          <Text style={styles.subtitle}>Delivery</Text>
-          <Text style={styles.subtitle}>{deliveryPrice}</Text>
-        </View>
-
-        <View style={styles.separator}></View>
-        <View style={styles.cartPriceRow}>
-          <Text style={styles.subtitle}>Total</Text>
-          {/* Total price + delivery price */}
-          <Text style={styles.subtitle}>{totalPrice + deliveryPrice}</Text>
-        </View>
-      </View>
-    </ScrollView>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -86,13 +115,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.theme.light,
   },
   mainCartContentContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  containerHorizontalPadding: {
     paddingHorizontal: 20,
   },
+
   titleTextContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-start",
+    height: 100,
   },
+
   title: {
     fontSize: 40,
     fontWeight: "bold",
@@ -100,7 +136,7 @@ const styles = StyleSheet.create({
     color: Colors.theme.primary,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "400",
     fontFamily: "Avenir",
     color: Colors.theme.primary,
@@ -111,31 +147,56 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.theme.primary,
   },
   dividerContainer: {
-    marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
     height: 15,
+    flex: 1,
   },
-  productsContainer: {
+  cartItemsContainer: {
+    flex: 1,
+    marginBottom: 20,
+  },
+  cartItemsInnerContainer: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 20,
+    marginVertical: 5,
     borderBottomColor: Colors.theme.primary,
     borderBottomWidth: 2,
-    paddingBottom: 20,
+    paddingBottom: 10,
   },
   cartTotalContainer: {
-    flex: 1,
-    marginTop: 20,
-    padding: 20,
+    padding: 5,
     backgroundColor: Colors.theme.light_green,
-    paddingBottom: 20,
   },
   cartPriceRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 5,
     backgroundColor: "transparent",
+  },
+  totalPriceBoldText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: "AGaramondProBold",
+    color: Colors.theme.primary,
+  },
+  checkoutButtonContainer: {
+    marginVertical: 10,
+    backgroundColor: "transparent",
+  },
+  checkoutButton: {
+    backgroundColor: Colors.theme.primary,
+    width: 343,
+    height: 50,
+    borderRadius: 80,
+    borderWidth: 2,
+    borderColor: Colors.theme.primary,
+    paddingTop: 5,
+    paddingRight: 20,
+    paddingBottom: 5,
+    paddingLeft: 20,
+  },
+  buttonText: {
+    color: Colors.theme.light,
   },
 });

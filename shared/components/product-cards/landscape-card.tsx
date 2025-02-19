@@ -87,7 +87,7 @@ const LandscapeCard: React.FC<CardProps> = ({
   );
 };
 
-export default LandscapeCard;
+export default React.memo(LandscapeCard);
 
 const styles = StyleSheet.create({
   container: {

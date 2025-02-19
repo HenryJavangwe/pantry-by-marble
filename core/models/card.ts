@@ -6,7 +6,9 @@ export interface CardProps {
   onRemoveFromCart?: () => void;
   onDecrementQuantity?: () => void;
   onIncrementQuantity?: () => void;
-  containerStyle?: any;
+  containerStyle?: {
+    [key: string]: number | string;
+  };
   imageStyle?: any;
   titleStyle?: any;
   priceStyle?: any;
@@ -14,4 +16,3 @@ export interface CardProps {
   iconHeight?: number;
   quantity?: number;
 }
-

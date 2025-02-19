@@ -1,4 +1,5 @@
-import { StyleSheet, ScrollView, Pressable } from "react-native";
+import React from "react";
+import { StyleSheet, Pressable, FlatList } from "react-native";
 import { Text, View } from "@/shared/components/Themed";
 import PortraitCard from "@/shared/components/product-cards/portrait-card";
 import { Colors } from "@/core/constants";
@@ -63,7 +64,7 @@ const Filters = ({
 export default function ProductCategoryList() {
   const { categoryId } = useLocalSearchParams();
   const filters = ["All", ...Object.values(ProductSubCategory)];
-  
+
   const { addToCart } = useCartStore();
 
   const { data, isLoading, error } = useFetchData<Product[]>("fetchMockData");
@@ -94,7 +95,7 @@ export default function ProductCategoryList() {
   if (error) return <Text>Error: {error.message}</Text>;
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View>
         <Text style={styles.title}>{categoryId ? categoryId : "Meat"}</Text>
       </View>
@@ -106,19 +107,23 @@ export default function ProductCategoryList() {
         <Text style={styles.bodyText}>Based on your selection</Text>
         <Text style={styles.subtitle}>Our products</Text>
       </View>
-      <View style={styles.productsContainer}>
-        {filteredData.map((product) => (
+
+      <FlatList
+        data={filteredData}
+        contentContainerStyle={styles.productsContainer}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item, index }) => (
           <PortraitCard
             imageStyle={{ borderRadius: 4 }}
-            product={product}
-            onCardPress={() => handleAddToCart(product)}
+            product={item}
+            onCardPress={() => handleAddToCart(item)}
             iconWidth={10}
             iconHeight={10}
-            key={product.id}
+            key={item.id}
           />
-        ))}
-      </View>
-    </ScrollView>
+        )}
+      />
+    </View>
   );
 }
 
@@ -156,5 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
+    width: "100%",
   },
 });
